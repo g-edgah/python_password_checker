@@ -67,6 +67,15 @@ def password_check(password) :
             if not password:
                 print("enter a password")
                 continue
+
             score, feedback = password_check(password)
             strength = passwd_strength(score)
+
+            print(f"\nPassword Strength: {strength} ({score}/5)")
+            print("Details:")
+
+            if feedback:
+                for i in feedback:
+                    print(f"  {i}")
+
             

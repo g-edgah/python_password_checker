@@ -1,28 +1,40 @@
 import string
 import getpass
 
-password = "helloworld1"
 
-score = 0
+def check(password):
+    score = 0
+    missing = []
 
-conditions = ["ascii_uppercase", "ascii_lowercase", "punctuation", "digits"]
+    conditions = ["ascii_uppercase", "ascii_lowercase", "punctuation", "digits"]
 
-def character_variety(password):
     for i in conditions:
         exists =  any([1 if c in getattr(string, i) else 0 for c in password])
 
         if exists:
             score += 1
+        if not exists:
+            if i == "ascii_uppercase":
+                missing.append("uppercase letter(s)(A-Z)")
+            elif i == "ascii_lowercase":
+                missing.append("lowercase letter(s)(a-z)")
+            elif i == "punctuation":
+                missing.append(f"special character(s)({string.punctuation})")
+            elif i == "digits":
+                missing.append("digit(s)(0-9)")
 
-#importing a dictionary of common passwords
-with open("common_passwds.txt", "r") as f:
-    common = f.read().splitlines()
 
-if password in common:
-    print ("this is a very common password")
-    strength = 0
+    #importing a dictionary of common passwords
+    with open("common_passwds.txt", "r") as f:
+        common = f.read().splitlines()
 
-def strength(password):
+    if password in common:
+        print ("this is a very common password")
+        score = 0
+
+    return score, missing
+
+def passwd_strength(score, password):
     length = len(password)
 
     if score >=4 and length >=15:
@@ -31,53 +43,48 @@ def strength(password):
         return "this will do"
     elif score >= 3 and length >=8:
         return "meeehh. we dont want to be average, do we?"
-    elif score <3 and length >= 6:
+    elif score >2 and length >= 6:
         return "come on"
-    elif score < 3 or  length < 6:
+    elif score <= 2 or  length < 6:
         return "eeiiii! attrocious! you can surely do better"
 
 
-
-
-def passwd_strength(strength, password):
-
-    if strength >= 5 and len(password) >10:
-        return "strong"
-    elif strength >= 4 and len(password) >= 8:
-        return "fairly strong"
-    elif strength >= 2 and len(password) >= 6:
-        return "weak"
-    elif strength <5 or len(password) < 6:
-        return "outright careless"
-
- #main
+#main
 def main():
-
+    mod = "show"
     while True:
 
-        mode = 'show'
-        print ("type 'hide' to hide password as you type and 'show' to show password as you type")
-
-        def hide_show(mode):
-            if mode.lower() == 'hide':
-                return getpass.getpass("enter password(hidden): ")
-            elif mode.lower() == 'show':
-               return input("enter password(visible): ")
+        print ("type 'hide' to hide password as you type and 'show' to show password as you type or type exit to exit password checker")
         
-        password = hide_show('show')
+        #password = hide_show(mod)
+        if mod == "show":
+            password = input('enter password(visible): ')  
+        elif mod == "hide":
+            password = getpass.getpass('enter password(hidden): ')
        
-        if password == 'show' or password == 'hide':
-            hide_show(password)
+        if password.lower() == 'show' or password.lower() == 'hide':
+            mod = password.lower()
+            continue
         elif password.lower() == 'exit':
             break
         elif not password:
-            print("enter a password")
+            print("you have not entered a password")
             continue
         else:
-            print(f"\nPassword Strength: {strength}) \nPassword Lenght: {len(password)}")
+            score, missing = check(password)
             print("Details:")
+            print(f"Password Strength: {passwd_strength(score, password)}) \nPassword Lenght: {len(password)} \nwhat you're missing: ")
             
+            if missing:
+                for i in missing:
+                    print(f"  {i}")
+            else:
+                print("all checks passed")
+
             if len(password) < 10:
-                print("a minimum of 10 characters is adviced")
+                print ("")
+                print("a minimum of 10 characters is adviced for a strong password")
+                print("")
+                print("")
         
 main()

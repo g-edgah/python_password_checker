@@ -51,30 +51,28 @@ def passwd_strength(strength, password):
         return "strong"
     elif strength >= 4 and len(password) >= 8:
         return "fairly strong"
-    elif strength >= 2 and len(password) >= 6:
+    elif strength >= 3 and len(password) >= 6:
         return "weak"
-    elif strength <5 or len(password) < 6:
+    elif strength <3 or len(password) < 6:
         return "outright careless"
         
 
     #main
 def main():
-
+    mod = "show"
     while True:
-        mode = 'show'
-        print ("type 'hide' to hide password as you type and 'show' to show password as you type")
 
-        def hide_show(mode):
-            if mode.lower() == 'hide':
-                return getpass.getpass("enter password(hidden): ")
-            elif mode.lower() == 'show':
-               return input("enter password(visible): ")
+        print ("type 'hide' to hide password as you type and 'show' to show password as you type or type exit to exit password checker")
         
-        password = hide_show("show")
-        
-        if password == 'show' or password == 'hide':
-            hide_show(password)
-        
+        #password = hide_show(mod)
+        if mod == "show":
+            password = input('enter password(visible): ')  
+        elif mod == "hide":
+            password = getpass.getpass('enter password(hidden): ')
+       
+        if password.lower() == 'show' or password.lower() == 'hide':
+            mod = password.lower()
+            continue
 
         #user can type exit to exit checker
         if password.lower() == 'exit':

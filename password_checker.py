@@ -61,7 +61,20 @@ def passwd_strength(strength, password):
 def main():
 
     while True:
-        password = getpass.getpass("enter password: ")
+        mode = 'show'
+        print ("type 'hide' to hide password as you type and 'show' to show password as you type")
+
+        def hide_show(mode):
+            if mode.lower() == 'hide':
+                return getpass.getpass("enter password(hidden): ")
+            elif mode.lower() == 'show':
+               return input("enter password(visible): ")
+        
+        password = hide_show("show")
+        
+        if password == 'show' or password == 'hide':
+            hide_show(password)
+        
 
         #user can type exit to exit checker
         if password.lower() == 'exit':

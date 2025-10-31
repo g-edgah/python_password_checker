@@ -2,7 +2,7 @@
 import re
 import getpass
 
-def password_check(password) :
+def password_check(password):
 
     strength = 0
     feedback = []
@@ -42,40 +42,48 @@ def password_check(password) :
     if password.lower() in common:
         score = 0
         feedback.append("no dice. this is a very common password")
+    
+    return score, feedback
 
-    def passwd_strength(score):
-        if score >= 8:
-            return "strong"
-        elif score >= 6:
-            return "fairly strong"
-        elif score >= 5:
-            return "weak"
-        else:
-            return "outright careless"
+def passwd_strength(score):
+    if score >= 8:
+        return "strong"
+    elif score >= 6:
+        return "fairly strong"
+    elif score >= 5:
+        return "weak"
+    else:
+        return "outright careless"
         
 
     #main
-    def main():
+def main():
 
-        while True:
-            password = getpass.getpass("enter password: ")
+    while True:
+        password = getpass.getpass("enter password: ")
 
-            #user can type exit to exit checker
-            if password.lower() == 'exit':
-                break
+        #user can type exit to exit checker
+        if password.lower() == 'exit':
+            break
 
-            if not password:
-                print("enter a password")
-                continue
+        if not password:
+            print("enter a password")
+            continue
 
-            score, feedback = password_check(password)
-            strength = passwd_strength(score)
+        score, feedback = password_check(password)
+        strength = passwd_strength(score)
 
-            print(f"\nPassword Strength: {strength} ({score}/5)")
-            print("Details:")
+        print(f"\nPassword Strength: {strength} ({score}/5)")
+        print("Details:")
 
-            if feedback:
-                for i in feedback:
-                    print(f"  {i}")
-
-            
+        if feedback:
+            for i in feedback:
+                print(f"  {i}")
+        else:
+            print("all checks passed")
+        
+        if len(password) < 10:
+            print("we suggest using a minimum of 10 characters for better security")
+if __name__ == "__main__":
+    main()
+        

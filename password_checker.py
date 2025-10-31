@@ -15,44 +15,45 @@ def password_check(password):
 
     #upper case
     if re.search(r'[A-Z]', password):
-        score += 1
+        strength += 1
     else:
         feedback.append("password should contain at least one uppercase character")
 
     #lower case
     if re.search(r'[a-z]', password):
-        score += 1
+        strength += 1
     else:
         feedback.append("password should contain at least one lowercase character")
 
     #number
     if re.search(r'\d', password):
-        score += 1
+        strength += 1
     else:
         feedback.append("password should contain at least one digit")
     
     #special
     if re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
-        score += 1
+        strength += 1
     else:
         feedback.append("password should contain at least one special character")
 
     #common
     common = ['password', '123456', 'qwerty', 'letmein', 'admin']
     if password.lower() in common:
-        score = 0
+        strength = 0
         feedback.append("no dice. this is a very common password")
     
-    return score, feedback
+    return strength, feedback
 
-def passwd_strength(score):
-    if score >= 8:
+def passwd_strength(strength, password):
+
+    if strength >= 5 and len(password) >10:
         return "strong"
-    elif score >= 6:
+    elif strength >= 4 and len(password) >= 8:
         return "fairly strong"
-    elif score >= 5:
+    elif strength >= 2 and len(password) >= 6:
         return "weak"
-    else:
+    elif strength <5 or len(password) < 6:
         return "outright careless"
         
 
@@ -70,10 +71,10 @@ def main():
             print("enter a password")
             continue
 
-        score, feedback = password_check(password)
-        strength = passwd_strength(score)
+        strength, feedback = password_check(password)
+        strength = passwd_strength(strength, password)
 
-        print(f"\nPassword Strength: {strength} ({score}/5)")
+        print(f"\nPassword Strength: {strength}) \nPassword Lenght: {len(password)}")
         print("Details:")
 
         if feedback:
@@ -83,7 +84,7 @@ def main():
             print("all checks passed")
         
         if len(password) < 10:
-            print("we suggest using a minimum of 10 characters for better security")
+            print("a minimum of 10 characters is adviced")
 if __name__ == "__main__":
     main()
         

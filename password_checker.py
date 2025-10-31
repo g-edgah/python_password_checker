@@ -85,6 +85,7 @@ def main():
         
         if len(password) < 10:
             print("a minimum of 10 characters is adviced")
+        
 if __name__ == "__main__":
     main()
         

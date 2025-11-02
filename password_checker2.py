@@ -54,7 +54,7 @@ def main():
     mod = "show"
     while True:
 
-        print ("type 'hide' to hide password as you type and 'show' to show password as you type or type exit to exit password checker")
+        print ("type 'hide' to hide password as you type and 'show' to show password as you type or type 'exit' to exit password checker")
         
         #password = hide_show(mod)
         if mod == "show":

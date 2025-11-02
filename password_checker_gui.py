@@ -13,7 +13,7 @@ class Checker:
         main_frame.pack(fill=tk.BOTH, expand=True)
 
         #title
-        ttk.Label(main_frame, text="password strength checker", font=("Arial", 16, "bold")).pack(pady=10)
+        ttk.Label(main_frame, text="password strength checker", font=("Arial", 12, "bold")).pack(pady=10)
        
 
         #input
@@ -33,7 +33,7 @@ class Checker:
         checkbox_button.pack(side=tk.LEFT, padx=10)
 
         #strenght meter
-        strength_frame = ttk.LabelFrame(main_frame, text="password strength meter", padding="10")
+        strength_frame = ttk.LabelFrame(main_frame, text="strength meter", padding="10")
         strength_frame.pack(fill=tk.X, pady=10)
 
         self.strength_label = ttk.Label(strength_frame, text="enter password to check")
@@ -87,7 +87,6 @@ class Checker:
 
         #lenght
         if length >= 10:
-            score += 1
             feedback["lenght"] = True
         else:
             feedback["lenght"] = False
@@ -136,9 +135,11 @@ class Checker:
             self.strength_label.config(text = "this will do", foreground="blue")
         elif score >= 3 and length >=8:
             self.strength_label.config(text = "meeehh. we dont want to be average, do we?", foreground="orange")
-        elif score >2 and length >= 6:
-            self.strength_label.config(text = "come on", foreground="red")
-        elif score <= 2 or  length < 6:
+        elif score >= 2 and length >= 6:
+            self.strength_label.config(text = "keep going. try a little more variety", foreground="orange")
+        elif score >= 1 and length > 5:
+            self.strength_label.config(text = "take another look at the requirements", foreground="red")
+        elif score <= 1 or length <= 5:
             self.strength_label.config(text = "attrocious! you can surely do better", foreground="red")
 
         

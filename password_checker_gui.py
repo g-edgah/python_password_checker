@@ -37,7 +37,7 @@ class Checker:
         strength_frame.pack(fill=tk.X, pady=10)
 
         self.strength_label = ttk.Label(strength_frame, text="enter password to check")
-        self.strength_label.pack(fill=tk.X, pady=10, anchor=tk.CENTER)
+        self.strength_label.pack()
 
         #progress bar
         self.progress = ttk.Progressbar(strength_frame, orient=tk.HORIZONTAL, length=200, mode='determinate')
@@ -63,8 +63,8 @@ class Checker:
         button_frame = ttk.Frame(main_frame)
         button_frame.pack(pady=10)
 
-        tk.Button(button_frame, text="close", command=self.window.destroy).pack(side=tk.LEFT, padx=5)
-        tk.Button(button_frame, text="clear", command=self.clear_input).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="close", command=self.window.destroy).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="clear", command=self.clear_input).pack(side=tk.LEFT, padx=5)
 
     def password_visibility(self):
         if self.checkbox.get():

@@ -53,7 +53,7 @@ class Checker:
             "uppercase": ttk.Label(details_frame, text="uppercase letter(s)[A-Z]"),
             "lowercase": ttk.Label(details_frame, text="lowercase letter(s) [a-z]"),
             "digit": ttk.Label(details_frame, text="digit(s) [0-9]"),
-            "special": ttk.Label(details_frame, text="special character(s) [!@#$...]")
+            "special": ttk.Label(details_frame, text="special character(s) [!@#$%^&*(),.?\":{}|<>]")
         }
 
         for req in self.requirements.values():
@@ -124,23 +124,30 @@ class Checker:
     def update_ui(self, score, feedback, password):
         
         length = len(password)
-
-        #progress bar
-        self.progress['value'] = (score / 5) * 100
+        meter_score = 0
 
         #comment
-        if score >=4 and length >=15:
+        if score == 4 and length >=15:
             self.strength_label.config(text = "chef's kiss", foreground="green")
+            meter_score = 6
         elif score >=3 and length >= 10:
             self.strength_label.config(text = "this will do", foreground="blue")
+            meter_score = 5
         elif score >= 3 and length >=8:
             self.strength_label.config(text = "meeehh. we dont want to be average, do we?", foreground="orange")
+            meter_score = 4
         elif score >= 2 and length >= 6:
             self.strength_label.config(text = "keep going. try a little more variety", foreground="orange")
+            meter_score = 3
         elif score >= 1 and length > 5:
             self.strength_label.config(text = "take another look at the requirements", foreground="red")
+            meter_score = 2
         elif score <= 1 or length <= 5:
             self.strength_label.config(text = "attrocious! you can surely do better", foreground="red")
+            meter_score = 1
+
+        #progress bar
+        self.progress['value'] = (meter_score / 6) * 100
 
         
         #requirements

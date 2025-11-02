@@ -76,16 +76,17 @@ class Checker:
         password = self.password.get()
         if password:
             score, feedback =self.strength_check(password)
-            self.update_ui(score, feedback)
+            self.update_ui(score, feedback, password)
         else:
             self.reset_ui()
 
     def strength_check(self, password):
         score = 0
         feedback = {}
+        length = len(password)
 
         #lenght
-        if len(password) >= 10:
+        if length >= 10:
             score += 1
             feedback["lenght"] = True
         else:
@@ -121,33 +122,38 @@ class Checker:
 
         return score, feedback
     
-    def update_ui(self, score, feedback):
+    def update_ui(self, score, feedback, password):
         
+        length = len(password)
+
         #progress bar
         self.progress['value'] = (score / 5) * 100
 
         #comment
-        if score == 5:
-            self.strength_label.config(text ="strong", foreground="green")
-        elif score >= 4:
-            self.strength_label.config(text ="strong", foreground="blue")
-        elif score >= 3:
-            self.strength_label.config(text ="fair", foreground="orange")
-        elif score < 3:
-            self.strength_label.config(text ="weak", foreground="red")
+        if score >=4 and length >=15:
+            self.strength_label.config(text = "chef's kiss", foreground="green")
+        elif score >=3 and length >= 10:
+            self.strength_label.config(text = "this will do", foreground="blue")
+        elif score >= 3 and length >=8:
+            self.strength_label.config(text = "meeehh. we dont want to be average, do we?", foreground="orange")
+        elif score >2 and length >= 6:
+            self.strength_label.config(text = "come on", foreground="red")
+        elif score <= 2 or  length < 6:
+            self.strength_label.config(text = "attrocious! you can surely do better", foreground="red")
+
         
         #requirements
         for req_name, label in self.requirements.items():
             if feedback[req_name]:
-                label.config(text=label.cget("text").replace("❌", "✅"), foreground="green")
+                label.config(foreground="green")
             else:
-                label.config(text=label.cget("text").replace("✅", "❌"), foreground="red")
+                label.config( foreground="red")
 
     def reset_ui(self):
         self.progress['value'] = 0
         self.strength_label.config(text="enter a password to be checked", foreground="black")
         for label in self.requirements.values():
-            label.config(text=label.cget("text").replace("✅", "❌"), foreground="red")
+            label.config(foreground="red")
     
     def clear_input(self):
         self.password.set("")
